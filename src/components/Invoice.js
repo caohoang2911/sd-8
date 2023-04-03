@@ -68,7 +68,7 @@ const Invoice = ({ data }) => {
       style={{
         fontFamily: 'Lato, sans-serif',
         fontSize: '16px',
-        lineHeight: '25px',
+        lineHeight: '25px', 
       }}
     >
       <div
