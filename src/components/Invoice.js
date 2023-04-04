@@ -49,7 +49,17 @@ const Invoice = ({ data }) => {
     return Number(totalPrice) + Number(shippingPrice || 0) - Number(shippingDiscount);
   }, [shippingDiscount, shippingPrice, totalPrice]);
 
-  const saveMoney = totalPrice - shippingDiscountTotal;
+  const moneyNotPromotion = useMemo(() => {
+    return products?.reduce(
+      (previousValue, currentValue) =>
+        previousValue + Number(currentValue.originPrice || 0) * Number(currentValue.quantity || 0),
+      0
+    );
+  }, [products]);
+
+  const saveMoney =
+    Number(moneyNotPromotion) - Number(totalPrice) - Number(shippingDiscountTotal || 0);
+
 
   // if (isLoading) return <Loading />;
 
@@ -68,7 +78,7 @@ const Invoice = ({ data }) => {
       style={{
         fontFamily: 'Lato, sans-serif',
         fontSize: '16px',
-        lineHeight: '25px', 
+        lineHeight: '25px',
       }}
     >
       <div
@@ -138,7 +148,7 @@ const Invoice = ({ data }) => {
               <span>
                 Thời gian: {moment(orderDetail?.header?.orderTime).format('HH:mm DD/MM/YYYY')}
               </span>
-              <span>Số HD: {orderDetail?.header?.code}</span>
+              <span>Mã đơn hàng: {orderDetail?.header?.code}</span>
               <span>Khách hàng: {customer?.name}</span>
               <span>
                 SDT: ******
@@ -293,8 +303,8 @@ const Invoice = ({ data }) => {
                 }}
               >
                 <span>Tộng cộng:</span>
-                <div className="flex flex-col">
-                  {Number(saveMoney) !== Number(totalPrice) && Boolean(saveMoney) && (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                  {Boolean(saveMoney) && (
                     <small>Tiết kiệm {new Intl.NumberFormat().format(saveMoney) || 0}</small>
                   )}
                   <span>{new Intl.NumberFormat().format(amountCaculator) || 0}</span>
