@@ -15,7 +15,7 @@ const Invoice = ({ data }) => {
   const { fullAddress , code: deliveryCode } = orderDetail?.deliveries?.[0]?.store || {};
   const { method }  =  payment || {};
 
-  const isPayOneLife = method?.method === 'ONELIFE';
+  const isPayOneLife = method === 'ONELIFE';
 
   const invoiceCode = invoice?.code;
 
@@ -147,7 +147,7 @@ const Invoice = ({ data }) => {
                     alignItems: 'center',
                   }}
                 >
-                  <span style={{ width: '85%', marginBottom: '23px', textAlign: 'center' }}>
+                  <span style={{ width: '85%', textAlign: 'center' }}>
                     ĐC: Kingfoodmart - {fullAddress}
                   </span>
                   {/* <span>
